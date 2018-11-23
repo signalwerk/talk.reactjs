@@ -52,20 +52,471 @@ Schule für Gestaltung Zürich
 ## DANGER!
 Live-coding...
 ---
-# react.js
+# React.js
 ---
 ## Einführung
 * Geschichte
 * Konzepte
 * Grundlagen
 ---
-## Wer kennt reactjs?
+## Wer kennt React.js?
+---
+## Was ist React.js
+* Daten «fliessen» durch die Applikation und bestimmen das Aussehen
+* Abstraktion der Applikation in Komponenten
 ---
 ## Geschichte
+---
 
+* **2006** – jQuery → JavaScript-Library um interaktion mit DOM zu erleichtern
+---
+* **2010** – Backbone.js → JavaScript-Library um Model–view–presenter (MVP) zu realisieren
+---
+## New Kids on the Block
+
+* **2010** – Angular.js / **2016** Angular
+* **2011** – Ember.js
+* **2013** – React.js
+* **2014** – Vue.js
+---
+## Erkennungsmerkmale
+
+* Daten ergeben das Aussehen (State)
+* Router spielen oft eine wichtige Rolle
+* Komponenten, Komponenten, Komponenten...
+
+---
+## Komponenten?
+
+---
+
+## Tags
+
+```html
+<img src="test.jpg" alt="test image">
+```
+
+---
+
+## Tags
+
+```html
+<img
+  src="test.jpg"
+  alt="test image"
+/>
+```
+---
+
+## HTML
+
+```html
+<img ... />
+<h1>...</h1>
+<p>...</p>
+
+```
+
+---
+## Verschachtelungen
+
+
+```html
+<ul>
+  <li>...</li>
+</ul>
+```
+
+---
+## React rendert HTML!
+
+Aber die Aufteilung ist nach logischen Komponenten...
+---
+
+## Atomic Design
+
+* [READ](http://atomicdesign.bradfrost.com/chapter-2/#atomic-design-is-for-user-interfaces)
+---
+
+## Komponenten
+```jsx
+<Avatar
+  firstname="Hans"
+  familyname="Muster"
+  picture="hans.jpg"
+/>
+```
+---
+## Komponenten
+```jsx
+<Avatar
+  firstname="Franziska"
+  familyname="Muster"
+  picture="franziska.jpg"
+/>
+```
+
+---
+## HTML
+
+
+```html
+<div class="avatar">
+  <div class="avatar--picture">
+    <img class="avatar--img"
+      src="hans.jpg"
+      alt="avatar image"
+    />
+  </div>
+  <div class="avatar--name">
+    <h3>Hans Muster</h3>
+  </div>
+</div>
+
+```
+---
+## CSS
+
+```css
+.avatar {
+  ...
+}
+
+```
+
+---
+## Verschachtelungen
+```jsx
+<Sidebar>
+  <Avatar
+    firstname="Hans"
+    familyname="Muster"
+    picture="hans.jpg"
+  />
+  <Avatar
+    firstname="Franziska"
+    familyname="Muster"
+    picture="franziska.jpg"
+  />
+</Sidebar>
+```
+---
+# Let's do it!
+---
+## CLI
+
+* [Create React App](https://facebook.github.io/create-react-app/)
+
+Hilft beim erstellen «einfacher» Applikationen.
+
+---
+
+### Install
+
+* [Node 8.10.0 oder neuer](https://nodejs.org/)
+---
+### Projekt erstellen
+
+```sh
+npx create-react-app worknight
+```
 
 
 ---
+### Hauptverzeichnis
+
+```sh
+cd worknight
+```
+
+---
+### Projekt starten
+
+```sh
+yarn start
+```
+
+```sh
+npm start
+```
+---
+### Browseransicht
+
+```
+http://localhost:3000/
+```
+---
+### Out of the Box
+
+* Live-Reload
+* CSS handling
+* ES6 (Babel)
+* ...
+
+---
+## Files
+
+---
+## Avatar-Komponente
+
+* `Avatar.js`
+* `Avatar.css`
+---
+
+## JS vs. JSX
+---
+
+## JSX
+
+* Mischung aus HTML und JS
+* Babel (Tool) übersetzt live in JS
+
+---
+
+## Avatar.js
+
+```jsx
+import React, { Component } from 'react';
+import './Avatar.css';
+
+class Avatar extends Component {
+  render() {
+    return (
+      <div className="avatar">
+        ...avatar...
+      </div>
+    );
+  }
+}
+
+export default Avatar;
+```
+---
+## JS-class oder HTML-class?!
+
+```jsx
+<div class="avatar">...</div>
+```
+---
+## JSX = className!
+
+
+```jsx
+<div className="avatar">...</div>
+```
+
+---
+## Avatar.css
+
+```css
+.avatar {
+  display: inline-block;
+  margin: 2rem;
+  width: 13rem;
+  height: 20rem;
+  background-color: gray;
+}
+
+.avatar--picture {
+  border-radius: 50%;
+  overflow: hidden;
+  width: 150px;
+  height: 150px;
+}
+```
+
+---
+## App.js
+
+
+Komponente importieren
+
+```jsx
+import Avatar from './Avatar';
+```
+
+---
+## App.js
+
+
+Komponente brauchen
+
+```jsx
+
+...
+  render() {
+    return (
+      <div className="App">
+        <Avatar />
+      </div>
+    );
+  }
+...
+
+```
+---
+
+## Avatar.js erweitern
+
+```jsx
+...
+  return (
+    <div className="avatar">
+      <div className="avatar--picture">
+        <img className="avatar--img"
+          src="hans.jpg"
+          alt="avatar image"
+        />
+      </div>
+      <div className="avatar--name">
+        <h3>Hans Muster</h3>
+      </div>
+    </div>
+  );
+...
+```
+---
+## App.js erweitern
+
+
+```jsx
+
+...
+  render() {
+    return (
+      <div className="App">
+        <Avatar
+          firstname="Franziska"
+          familyname="Muster"
+          picture="http://i.pravatar.cc/150?img=1"
+        />
+      </div>
+    );
+  }
+...
+
+```
+---
+
+## Avatar.js erweitern
+
+```jsx
+...
+  return (
+    <div className="avatar">
+      <div className="avatar--picture">
+        <img className="avatar--img"
+          src={this.props.picture}
+          alt="avatar image"
+        />
+      </div>
+      <div className="avatar--name">
+        <h3>{this.props.firstname} {this.props.familyname}</h3>
+      </div>
+    </div>
+  );
+...
+```
+---
+
+## Props übergeben
+
+
+```jsx
+<Avatar
+  firstname="Franziska"
+  familyname="Muster"
+  picture="http://i.pravatar.cc/150?img=1"
+/>
+```
+
+
+---
+
+## Props in Komponente brauchen
+
+```jsx
+<h3>{this.props.firstname} {this.props.familyname}</h3>
+```
+
+---
+## App.js erweitern
+
+
+```jsx
+
+...
+  state = {
+    people: [
+      {
+        firstname: "Hans",
+        familyname: "Muster",
+        picture: "http://i.pravatar.cc/150?img=3"
+      },
+      {
+        firstname: "Franziska",
+        familyname: "Muster",
+        picture: "http://i.pravatar.cc/150?img=1"
+      }
+    ]
+  };
+...
+
+```
+---
+
+## App.js erweitern
+
+
+```jsx
+
+...
+
+addKurt(e) {
+  this.setState({
+    people: this.state.people.concat([
+      {
+        firstname: "Kurt",
+        familyname: "Muster",
+        picture: "http://i.pravatar.cc/150?img=4"
+      }
+    ])
+  });
+}
+...
+
+```
+
+---
+## App.js erweitern
+
+
+```jsx
+
+...
+render() {
+  ...
+      {this.state.people.map(item => (
+        <Avatar
+          firstname={item.firstname}
+          familyname={item.familyname}
+          picture={item.picture}
+        />
+      ))}
+      <button onClick={e => this.addKurt(e)}>
+        Add Kurt
+      </button>
+  ...
+}
+...
+
+```
+---
+# This is it!
+## Fragen?
+
+---
+
 ![](//cdn.rawgit.com/signalwerk/talk.travis-ci/1991b0ef/img/header.png)
 ### [Next Meetup – 07.12.2018 – Lightning Talk – Git & Github](https://logrinto.ch/events/web-worknights-hs-2018/)
 
